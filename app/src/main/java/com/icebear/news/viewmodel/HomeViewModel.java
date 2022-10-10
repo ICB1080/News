@@ -17,7 +17,9 @@ public class HomeViewModel extends ViewModel {
         this.repository = repository;
     }
 
+
     public void setCountryInput(String country){
+        // if we want to change LiveData, use setValue()
         countryInput.setValue(country);
     }
 

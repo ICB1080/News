@@ -22,12 +22,13 @@ public class RetrofitInstance {
                 .build();
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                // use Gson to deserialize JSON response into our model
+                // use Gson to deserialize JSON response into our model classes
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
     }
 
+    // attach header information to all requests
     private static class HeaderInterceptor implements Interceptor {
 
         @Override

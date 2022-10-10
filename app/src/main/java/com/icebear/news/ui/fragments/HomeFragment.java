@@ -32,7 +32,7 @@ public class HomeFragment extends Fragment {
 //    call back onCreateView() then onViewCreated
 
 //    And we do not want ot lose countryInput during these activities.
-//    So a ViewModelProvider can retain view models and persist them
+//    So a ViewModelProvider appears, it can retain view models and persist them
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

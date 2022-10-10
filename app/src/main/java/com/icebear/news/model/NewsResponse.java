@@ -8,6 +8,7 @@ public class NewsResponse {
     public List<Article> articles;
     public String status;
 
+    // this is from an error response
     public String message;
     public String code;
 

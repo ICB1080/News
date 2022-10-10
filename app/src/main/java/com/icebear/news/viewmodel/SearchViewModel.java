@@ -10,6 +10,8 @@ import com.icebear.news.repository.NewsRepository;
 
 public class SearchViewModel extends ViewModel {
     private final NewsRepository repository;
+
+    // MutableLiveData can change its value by setValue
     private final MutableLiveData<String> searchInput = new MutableLiveData<>();
 
     public SearchViewModel(NewsRepository repository) {
@@ -21,6 +23,8 @@ public class SearchViewModel extends ViewModel {
     }
 
     public LiveData<NewsResponse> searchNews() {
+        // if searchInput change, applies function searchNews to new value of searchInput
+        // and return sets new resulting LiveData as a result
         return Transformations.switchMap(searchInput, repository::searchNews);
     }
 

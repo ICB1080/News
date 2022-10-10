@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.icebear.news.R;
+import com.icebear.news.adapters.SearchNewsAdapter;
 import com.icebear.news.databinding.FragmentSearchBinding;
 import com.icebear.news.repository.NewsRepository;
 import com.icebear.news.repository.NewsViewModelFactory;
@@ -38,6 +40,13 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        SearchNewsAdapter newsAdapter = new SearchNewsAdapter();
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 1);
+        binding.newsResultsRecyclerView.setLayoutManager(gridLayoutManager);
+        binding.newsResultsRecyclerView.setAdapter(newsAdapter);
+
+
+//        set a listener at search bar, if xxx is entered, set searchInput to be xxx
         binding.newsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -68,6 +77,7 @@ public class SearchFragment extends Fragment {
                         newsResponse -> {
                             if (newsResponse != null) {
                                 Log.d("SearchFragment", newsResponse.toString());
+                                newsAdapter.setArticles(newsResponse.articles);
                             }
                         });
 
