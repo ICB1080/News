@@ -3,8 +3,10 @@ package com.icebear.news.repository;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.icebear.news.NewsApplication;
 import com.icebear.news.api.NewsApi;
 import com.icebear.news.api.RetrofitInstance;
+import com.icebear.news.database.NewsDatabase;
 import com.icebear.news.model.NewsResponse;
 
 import retrofit2.Call;
@@ -13,9 +15,12 @@ import retrofit2.Response;
 
 public class NewsRepository {
     private final NewsApi newsApi;
+    private final NewsDatabase database;
+
 
     public NewsRepository(){
         newsApi = RetrofitInstance.newInstance().create(NewsApi.class);
+        database = NewsApplication.getDatabase();
     }
 
     public LiveData<NewsResponse> getTopHeadlines(String country) {

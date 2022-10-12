@@ -1,7 +1,12 @@
 package com.icebear.news.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.Objects;
 
+@Entity
 public class Article {
 //    source is omitted intentionally for simplification
     public String author;
@@ -9,6 +14,8 @@ public class Article {
     public String description;
     public String publishedAt;
     public String title;
+    @NonNull
+    @PrimaryKey
     public String url;
     public String urlToImage;
 

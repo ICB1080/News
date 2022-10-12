@@ -31,6 +31,11 @@ android {
 }
 
 dependencies {
+    annotationProcessor "androidx.room:room-compiler:2.4.2"
+    implementation "androidx.room:room-guava:2.4.2"
+    implementation "androidx.room:room-runtime:2.4.2"
+
+
     implementation files("libs/card-stack-view-2.3.4.aar")
 
 
