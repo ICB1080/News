@@ -20,11 +20,16 @@ import com.icebear.news.repository.NewsRepository;
 import com.icebear.news.repository.NewsViewModelFactory;
 import com.icebear.news.viewmodel.HomeViewModel;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
+import com.yuyakaido.android.cardstackview.CardStackListener;
+import com.yuyakaido.android.cardstackview.Direction;
+import com.yuyakaido.android.cardstackview.Duration;
 import com.yuyakaido.android.cardstackview.StackFrom;
+import com.yuyakaido.android.cardstackview.SwipeAnimationSetting;
 
+import java.util.Dictionary;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements CardStackListener {
     private HomeViewModel viewModel;
     private FragmentHomeBinding binding;
     private CardStackLayoutManager layoutManager;
@@ -51,14 +56,19 @@ public class HomeFragment extends Fragment {
 
         // Setup CardStackView
         CardSwipeAdapter swipeAdapter = new CardSwipeAdapter();
-        layoutManager = new CardStackLayoutManager(requireContext());
+        layoutManager = new CardStackLayoutManager(requireContext(), this);
         layoutManager.setStackFrom(StackFrom.Top);
         binding.homeCardStackView.setLayoutManager(layoutManager);
         binding.homeCardStackView.setAdapter(swipeAdapter);
 
         // Handle like unlike button clicks
-        // TODO
-
+        // if click like button: swipe to right
+        binding.homeLikeButton.setOnClickListener(v ->
+                swipeCard(Direction.Right));
+        // if click unlike button: swipe to left
+        binding.homeUnlikeButton.setOnClickListener(v ->
+                swipeCard(Direction.Left)
+                );
 
 
 
@@ -78,6 +88,48 @@ public class HomeFragment extends Fragment {
                         });
     }
 
+    private void swipeCard(Direction direction){
+        SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
+                .setDirection(direction)
+                .setDuration(Duration.Normal.duration)
+                .build();
+        layoutManager.setSwipeAnimationSetting(setting);
+        binding.homeCardStackView.swipe();
+    }
 
 
+    @Override
+    public void onCardDragging(Direction direction, float v) {
+
+    }
+
+    @Override
+    public void onCardSwiped(Direction direction) {
+        if (direction == Direction.Left) {
+            Log.d("CardStackView", "Unliked " + layoutManager.getTopPosition());
+        } else if (direction == Direction.Right) {
+            Log.d("CardStackView", "Liked "  + layoutManager.getTopPosition());
+        }
+
+    }
+
+    @Override
+    public void onCardRewound() {
+
+    }
+
+    @Override
+    public void onCardCanceled() {
+
+    }
+
+    @Override
+    public void onCardAppeared(View view, int i) {
+
+    }
+
+    @Override
+    public void onCardDisappeared(View view, int i) {
+
+    }
 }
