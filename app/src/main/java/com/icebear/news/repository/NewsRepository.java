@@ -1,5 +1,7 @@
 package com.icebear.news.repository;
 
+import android.os.AsyncTask;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -7,6 +9,7 @@ import com.icebear.news.NewsApplication;
 import com.icebear.news.api.NewsApi;
 import com.icebear.news.api.RetrofitInstance;
 import com.icebear.news.database.NewsDatabase;
+import com.icebear.news.model.Article;
 import com.icebear.news.model.NewsResponse;
 
 import retrofit2.Call;
@@ -66,4 +69,46 @@ public class NewsRepository {
         return everyThingLiveData;
 
     }
+
+    // database query accessing the disk storage can be very slow
+    // so we dispatch the query work to a background thread
+    private static class FavoriteAsyncTask extends AsyncTask<Article, Void, Boolean> {
+
+        private final NewsDatabase database;
+        private final MutableLiveData<Boolean> liveData;
+
+        private FavoriteAsyncTask(NewsDatabase database, MutableLiveData<Boolean> liveData) {
+            this.database = database;
+            this.liveData = liveData;
+        }
+
+
+        // everything inside doInBackground should be executed on a separate background thread
+        @Override
+        protected Boolean doInBackground(Article... articles) {
+            Article article = articles[0];
+            try {
+                // save article
+                database.articleDao().saveArticle(article);
+            } catch (Exception e) {
+                return false;
+            }
+            return true;
+        }
+
+        // after executing doInBackground, onPostExecute would be executed back on the main UI thread
+        @Override
+        protected void onPostExecute(Boolean success) {
+            liveData.setValue(success);
+        }
+    }
+
+    public LiveData<Boolean> favoriteArticle(Article article) {
+        MutableLiveData<Boolean> resultLiveData = new MutableLiveData<>();
+        new FavoriteAsyncTask(database, resultLiveData).execute(article);
+        return resultLiveData;
+    }
+
 }
+
+

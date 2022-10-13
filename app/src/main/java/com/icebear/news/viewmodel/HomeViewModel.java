@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.icebear.news.model.Article;
 import com.icebear.news.model.NewsResponse;
 import com.icebear.news.repository.NewsRepository;
 
@@ -21,6 +22,10 @@ public class HomeViewModel extends ViewModel {
     public void setCountryInput(String country){
         // if we want to change LiveData, use setValue()
         countryInput.setValue(country);
+    }
+
+    public void setFavoriteArticleInput(Article article){
+        repository.favoriteArticle(article);
     }
 
 

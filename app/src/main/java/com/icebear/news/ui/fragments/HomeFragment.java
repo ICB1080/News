@@ -1,5 +1,6 @@
 package com.icebear.news.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.icebear.news.R;
 import com.icebear.news.adapters.CardSwipeAdapter;
@@ -108,7 +110,13 @@ public class HomeFragment extends Fragment implements CardStackListener {
         if (direction == Direction.Left) {
             Log.d("CardStackView", "Unliked " + layoutManager.getTopPosition());
         } else if (direction == Direction.Right) {
-            Log.d("CardStackView", "Liked "  + layoutManager.getTopPosition());
+            Log.d("CardStackView", "Liked " + layoutManager.getTopPosition());
+            Article article = articles.get(layoutManager.getTopPosition() - 1);
+            viewModel.setFavoriteArticleInput(article);
+            Context context = getContext().getApplicationContext();
+            CharSequence text = "You successfully save the news!";
+            int duration = Toast.LENGTH_SHORT;
+            Toast.makeText(context, text, duration).show();
         }
 
     }
