@@ -18,6 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchNewsAdapter extends RecyclerView.Adapter<SearchNewsAdapter.SearchNewsViewHolder> {
+    public interface ItemCallback {
+        void onOpenDetails(Article article);
+    }
+
+    private ItemCallback itemCallback;
+
+    public void setItemCallback(ItemCallback itemCallback) {
+        this.itemCallback = itemCallback;
+    }
+
+
     // 1. Supporting data:
     private List<Article> articles = new ArrayList<>();
 
@@ -27,6 +38,8 @@ public class SearchNewsAdapter extends RecyclerView.Adapter<SearchNewsAdapter.Se
         // Everytime, a newList is set, we call notifyDataSetChanged to let the adapter refresh and re-render
         notifyDataSetChanged();
     }
+
+
 
     // 2. Adapter overrides:
 
@@ -47,7 +60,7 @@ public class SearchNewsAdapter extends RecyclerView.Adapter<SearchNewsAdapter.Se
         if (article.urlToImage != null){
             Picasso.get().load(article.urlToImage).resize(200, 200).into(holder.itemImageView);
         }
-
+        holder.itemView.setOnClickListener(v -> itemCallback.onOpenDetails(article));
     }
 
     // provide current data collection's size
