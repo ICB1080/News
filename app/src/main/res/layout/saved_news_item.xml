@@ -17,18 +17,17 @@
             android:id="@+id/saved_item_favorite_image_view"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_thumb_up_24dp"
+            android:src="@drawable/ic_favorite_24"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="#00A76F"
             />
 
         <TextView
             android:id="@+id/saved_item_author_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Author:"
-            android:textStyle="bold"
+            android:text="@string/saved_item_author"
+            style="@style/NewsMediumText"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
@@ -49,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Description:"
+            android:text="@string/saved_item_description"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/saved_item_author_content" />
